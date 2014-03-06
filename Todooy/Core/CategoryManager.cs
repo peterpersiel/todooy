@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Tasky.Core {
-	/// <summary>
+namespace Todooy.Core {
 	/// Manager classes are an abstraction on the data access layers
 	/// </summary>
 	public static class TaskManager {

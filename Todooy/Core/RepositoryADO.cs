@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Tasky.Core {
+namespace Todooy.Core {
 	public class TaskRepositoryADO {
 		TaskDatabase db = null;
 		protected static string dbLocation;		

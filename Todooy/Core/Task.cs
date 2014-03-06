@@ -1,6 +1,6 @@
 using System;
 
-namespace Tasky.Core {
+namespace Todooy.Core {
 	/// <summary>
 	/// Task business object
 	/// </summary>

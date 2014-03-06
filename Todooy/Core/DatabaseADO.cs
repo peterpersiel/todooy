@@ -6,7 +6,7 @@ using Mono.Data.Sqlite;
 using System.IO;
 using System.Data;
 
-namespace Tasky.Core
+namespace Todooy.Core
 {
 	/// <summary>
 	/// TaskDatabase uses ADO.NET to create the [Items] table and create,read,update,delete data
