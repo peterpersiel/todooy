@@ -1,6 +1,17 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina4_64.7.0" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Todooy/Core/TaskRepositoryADO.cs">
+    <Files>
+      <File FileName="Todooy/ApplicationLayer/TaskDialog.cs" Line="20" Column="23" />
+      <File FileName="Todooy/Screens/HomeScreen.cs" Line="7" Column="14" />
+      <File FileName="Todooy/ApplicationLayer/EditingSource.cs" Line="9" Column="1" />
+      <File FileName="Todooy/AppDelegate.cs" Line="1" Column="1" />
+      <File FileName="Todooy/Core/TaskDatabaseADO.cs" Line="5" Column="12" />
+      <File FileName="Todooy/Core/Task.cs" Line="1" Column="1" />
+      <File FileName="Todooy/Core/TaskManager.cs" Line="1" Column="1" />
+      <File FileName="Todooy/Core/TaskRepositoryADO.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

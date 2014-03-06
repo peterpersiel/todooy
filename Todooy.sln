@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Todooy", "Todooy\Todooy.csproj", "{08FAE550-E302-4022-A871-17E0462E99F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Todooy.Core.iOS", "Todooy.Core\Todooy.Core.iOS.csproj", "{3A95B215-DC1A-4A51-A2FD-AB811103F1CE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -21,16 +19,8 @@ Global
 		{08FAE550-E302-4022-A871-17E0462E99F3}.Release|iPhone.Build.0 = Release|iPhone
 		{08FAE550-E302-4022-A871-17E0462E99F3}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{08FAE550-E302-4022-A871-17E0462E99F3}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
-		{3A95B215-DC1A-4A51-A2FD-AB811103F1CE}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{3A95B215-DC1A-4A51-A2FD-AB811103F1CE}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{3A95B215-DC1A-4A51-A2FD-AB811103F1CE}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{3A95B215-DC1A-4A51-A2FD-AB811103F1CE}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{3A95B215-DC1A-4A51-A2FD-AB811103F1CE}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{3A95B215-DC1A-4A51-A2FD-AB811103F1CE}.Release|iPhone.Build.0 = Release|Any CPU
-		{3A95B215-DC1A-4A51-A2FD-AB811103F1CE}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{3A95B215-DC1A-4A51-A2FD-AB811103F1CE}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = TaskyiOS\Todooy.csproj
+		StartupItem = Todooy\Todooy.csproj
 	EndGlobalSection
 EndGlobal

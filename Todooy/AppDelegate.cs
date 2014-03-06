@@ -4,13 +4,13 @@ using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
-namespace Tasky {
+namespace Todooy {
 	[Register ("AppDelegate")]
 	public partial class AppDelegate : UIApplicationDelegate {
 		// class-level declarations
 		UIWindow window;
 		UINavigationController navController;
-		UITableViewController homeViewController;
+		UITableViewController tasksViewController;
 
 		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 		{
@@ -25,14 +25,14 @@ namespace Tasky {
 
 			// create our home controller based on the device
 			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone) {
-				homeViewController = new Screens.HomeScreen ();
+				tasksViewController = new Screens.TasksScreen ();
 			} else {
 				// sample does not contain an iPad UI, so re-use the iPhone one for now; this just shows how you might support iPad
-				homeViewController = new Screens.HomeScreen ();
+				tasksViewController = new Screens.TasksScreen ();
 			}
 
 			// push the view controller onto the nav controller and show the window
-			navController.PushViewController(homeViewController, false);
+			navController.PushViewController(tasksViewController, false);
 			window.RootViewController = navController;
 			window.MakeKeyAndVisible ();
 			

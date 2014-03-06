@@ -1,0 +1,33 @@
+# Version: 7.0.7.2 (fb4bc7b)
+# [first argument, ignore] # /Users/Peter/todooy/Todooy/bin/iPhoneSimulator/Debug/mtouch.exe
+/Developer/MonoTouch/usr/bin/mtouch \
+	-sdkroot \
+	/Applications/Xcode.app/Contents/Developer \
+	--cache \
+	/Users/Peter/todooy/Todooy/obj/iPhoneSimulator/Debug/mtouch-cache \
+	--nomanifest \
+	--nosign \
+	-sim \
+	/Users/Peter/todooy/Todooy/bin/iPhoneSimulator/Debug/Todooy.app \
+	-r \
+	/Developer/MonoTouch/usr/lib/mono/2.1/System.dll \
+	-r \
+	/Developer/MonoTouch/usr/lib/mono/2.1/System.Xml.dll \
+	-r \
+	/Developer/MonoTouch/usr/lib/mono/2.1/System.Core.dll \
+	-r \
+	/Developer/MonoTouch/usr/lib/mono/2.1/monotouch.dll \
+	-r \
+	/Developer/MonoTouch/usr/lib/mono/2.1/MonoTouch.Dialog-1.dll \
+	-r \
+	/Developer/MonoTouch/usr/lib/mono/2.1/Mono.Data.Sqlite.dll \
+	-r \
+	/Developer/MonoTouch/usr/lib/mono/2.1/System.Data.dll \
+	-debug \
+	-nolink \
+	-sdk \
+	7.0 \
+	-targetver \
+	7.0 \
+	--abi=i386 \
+	/Users/Peter/todooy/Todooy/bin/iPhoneSimulator/Debug/Todooy.exe \

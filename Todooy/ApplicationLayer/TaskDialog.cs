@@ -1,9 +1,9 @@
 using System;
 using MonoTouch.UIKit;
-using Tasky.Core;
+using Todooy.Core;
 using MonoTouch.Dialog;
 
-namespace Tasky.ApplicationLayer {
+namespace Todooy.ApplicationLayer {
 	/// <summary>
 	/// Wrapper class for Task, to use with MonoTouch.Dialog. If it was just iOS platform
 	/// we could apply these attributes directly to the Task class, but because we share that
@@ -12,8 +12,9 @@ namespace Tasky.ApplicationLayer {
 	public class TaskDialog {
 		public TaskDialog (Task task)
 		{
-			Name = task.Name;
+			Name  = task.Name;
 			Notes = task.Notes;
+			Done  = task.Done;
 		}
 		
 		[Entry("task name")]
@@ -21,6 +22,9 @@ namespace Tasky.ApplicationLayer {
 
 		[Entry("other task info")]
 		public string Notes { get; set; }
+		
+		[Entry("Done")]
+		public bool Done { get; set; }
 		
 		[Section ("")]
 		[OnTap ("SaveTask")]

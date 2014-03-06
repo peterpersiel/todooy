@@ -4,9 +4,9 @@ using System.Linq;
 using MonoTouch.UIKit;
 using MonoTouch.Dialog;
 using MonoTouch.Foundation;
-using Tasky.Core;
+using Todooy.Core;
 
-namespace Tasky.ApplicationLayer {
+namespace Todooy.ApplicationLayer {
 
 	/// <summary>
 	/// This is our subclass of the fixed-size Source that allows editing

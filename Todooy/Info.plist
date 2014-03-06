@@ -29,5 +29,7 @@
 	<string>0.1</string>
 	<key>MinimumOSVersion</key>
 	<string>7.0</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.peterpersiel.todooy</string>
 </dict>
 </plist>

@@ -1,12 +1,15 @@
 ﻿using System;
 
-namespace Todooy
-{
-    public class Category
-    {
+namespace Todooy.Core {
+    /// <summary>
+    /// Category business object
+    /// </summary>
+    public class Category {
         public Category ()
         {
         }
+
+        public int ID { get; set; }
+        public string Name { get; set; }
     }
 }
-
