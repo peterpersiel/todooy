@@ -11,7 +11,7 @@ namespace Todooy.Screens {
 	/// <summary>
 	/// A UITableViewController that uses MonoTouch.Dialog - displays the list of Tasks
 	/// </summary>
-	public class HomeScreen : DialogViewController {
+	public class TasksScreen : DialogViewController {
 		// 
 		List<Task> tasks;
 		
@@ -21,7 +21,7 @@ namespace Todooy.Screens {
 		Task currentTask;
 		DialogViewController detailsScreen;
 
-		public HomeScreen () : base (UITableViewStyle.Plain, null)
+		public TasksScreen () : base (UITableViewStyle.Plain, null)
 		{
 			Initialize ();
 		}
@@ -75,8 +75,7 @@ namespace Todooy.Screens {
 			tasks.ForEach(t => {
 				s.Add(new CheckboxElement ((t.Name == "" ? "<new task>" : t.Name), t.Done));
             });
-			
-			
+
 		}
 		public override void Selected (MonoTouch.Foundation.NSIndexPath indexPath)
 		{
@@ -85,7 +84,7 @@ namespace Todooy.Screens {
 		}
 		public override Source CreateSizingSource (bool unevenRows)
 		{
-			return new EditingSource (this);
+			return new TaskSource (this);
 		}
 		public void DeleteTaskRow(int rowId)
 		{

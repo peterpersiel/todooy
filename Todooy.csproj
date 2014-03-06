@@ -76,7 +76,6 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="ApplicationLayer\EditingSource.cs" />
     <Compile Include="ApplicationLayer\TaskDialog.cs" />
     <Compile Include="Core\Task.cs" />
     <Compile Include="Core\TaskManager.cs" />
@@ -86,6 +85,9 @@
     <Compile Include="Core\CategoryManager.cs" />
     <Compile Include="ApplicationLayer\CategoryDialog.cs" />
     <Compile Include="Screens\TasksScreen.cs" />
+    <Compile Include="Screens\CatergoriesScreen.cs" />
+    <Compile Include="ApplicationLayer\TaskSource.cs" />
+    <Compile Include="ApplicationLayer\CategorySource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

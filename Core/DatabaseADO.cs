@@ -52,13 +52,13 @@ namespace Todooy.Core
 		
 		/// <summary>Convert from DataReader to Category object</summary>
 		Category CategoryReader (SqliteDataReader r) {
-			var t = new Category ();
-			t.ID = Convert.ToInt32 (r ["_id"]);
-			t.Name = r ["Name"].ToString ();
-			return t;
+			var c = new Category ();
+			c.ID = Convert.ToInt32 (r ["_id"]);
+			c.Name = r ["Name"].ToString ();
+			return c;
 		}
 
-		public IEnumerable<Task> GetCategories ()
+        public IEnumerable<Category> GetCategories ()
 		{
 			var tl = new List<Category> ();
 
@@ -77,9 +77,9 @@ namespace Todooy.Core
 			return tl;
 		}
 
-		public Task GetCategory (int id) 
+        public Category GetCategory (int id) 
 		{
-			var t = new Category ();
+			var c = new Category ();
 			lock (locker) {
 				connection = new SqliteConnection ("Data Source=" + path);
 				connection.Open ();
@@ -88,13 +88,13 @@ namespace Todooy.Core
 					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = id });
 					var r = command.ExecuteReader ();
 					while (r.Read ()) {
-						t = CategoryReader (r);
+						c = CategoryReader (r);
 						break;
 					}
 				}
 				connection.Close ();
 			}
-			return t;
+			return c;
 		}
 
 		public int SaveCategory (Category item) 
@@ -149,7 +149,6 @@ namespace Todooy.Core
 			t.Name = r ["Name"].ToString ();
 			t.Notes = r ["Notes"].ToString ();
 			t.Done = Convert.ToInt32 (r ["Done"]) == 1 ? true : false;
-			t.CategoryId = t.Done = Convert.ToInt32 (r ["CategoryId"]) == 1 ? true : false;
 			return t;
 		}
 
@@ -160,10 +159,10 @@ namespace Todooy.Core
 			lock (locker) {
 				connection = new SqliteConnection ("Data Source=" + path);
 				connection.Open ();
-				using (var contents = connection.CreateCommand ()) {
-					contents.CommandText = "SELECT [_id], [Name], [Notes], [Done] from [Tasks] WHERE [CategoryId] = ?";
+				using (var command = connection.CreateCommand ()) {
+					command.CommandText = "SELECT [_id], [Name], [Notes], [Done] from [Tasks] WHERE [CategoryId] = ?";
 					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = categoryId });
-					var r = contents.ExecuteReader ();
+					var r = command.ExecuteReader ();
 					while (r.Read ()) {
 						tl.Add (TaskReader(r));
 					}

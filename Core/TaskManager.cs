@@ -12,22 +12,22 @@ namespace Todooy.Core {
 		
 		public static Task GetTask(int id)
 		{
-			return TaskRepositoryADO.GetTask(id);
+			return RepositoryADO.GetTask(id);
 		}
 		
-		public static IList<Task> GetTasks ()
+		public static IList<Task> GetTasks (int categoryId)
 		{
-			return new List<Task>(TaskRepositoryADO.GetTasks());
+			return new List<Task>(RepositoryADO.GetTasks(categoryId));
 		}
 		
 		public static int SaveTask (Task item)
 		{
-			return TaskRepositoryADO.SaveTask(item);
+			return RepositoryADO.SaveTask(item);
 		}
 		
 		public static int DeleteTask(int id)
 		{
-			return TaskRepositoryADO.DeleteTask(id);
+			return RepositoryADO.DeleteTask(id);
 		}
 	}
 }

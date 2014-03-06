@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Todooy.Core {
 	public class RepositoryADO {
-		TaskDatabase db = null;
+		DatabaseADO db = null;
 		protected static string dbLocation;		
 		protected static RepositoryADO me;		
 
@@ -58,7 +58,7 @@ namespace Todooy.Core {
 
 		public static IEnumerable<Task> GetTasks (int categoryId)
 		{
-			return me.db.GetItems(categoryId);
+			return me.db.GetTasks(categoryId);
 		}
 
 		public static int SaveTask (Task item)
@@ -76,7 +76,7 @@ namespace Todooy.Core {
 			return me.db.GetCategory(id);
 		}
 
-		public static IEnumerable<Task> GetCategories ()
+        public static IEnumerable<Category> GetCategories ()
 		{
 			return me.db.GetCategories();
 		}

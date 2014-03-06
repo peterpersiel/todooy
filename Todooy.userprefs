@@ -1,6 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.0" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Screens/TasksScreen.cs">
+    <Files>
+      <File FileName="Screens/TasksScreen.cs" Line="73" Column="24" />
+      <File FileName="Screens/CatergoriesScreen.cs" Line="80" Column="54" />
+      <File FileName="Core/TaskManager.cs" Line="20" Column="61" />
+      <File FileName="Core/CategoryManager.cs" Line="20" Column="45" />
+      <File FileName="Core/RepositoryADO.cs" Line="61" Column="24" />
+      <File FileName="Core/DatabaseADO.cs" Line="207" Column="81" />
+      <File FileName="Core/Task.cs" Line="17" Column="3" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

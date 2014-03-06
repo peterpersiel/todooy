@@ -13,5 +13,6 @@ namespace Todooy.Core {
 		public string Name { get; set; }
 		public string Notes { get; set; }
 		public bool Done { get; set; }
+        public int CategoryId { get; set; }
 	}
 }

@@ -11,6 +11,8 @@ namespace Todooy {
 		UIWindow window;
 		UINavigationController navController;
 		UITableViewController tasksViewController;
+        UITableViewController categoriesViewController;
+
 
 		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 		{
@@ -25,14 +27,14 @@ namespace Todooy {
 
 			// create our home controller based on the device
 			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone) {
-				tasksViewController = new Screens.TasksScreen ();
+				categoriesViewController = new Screens.CategoriesScreen ();
 			} else {
 				// sample does not contain an iPad UI, so re-use the iPhone one for now; this just shows how you might support iPad
-				tasksViewController = new Screens.TasksScreen ();
+				categoriesViewController = new Screens.CategoriesScreen ();
 			}
 
 			// push the view controller onto the nav controller and show the window
-			navController.PushViewController(tasksViewController, false);
+			navController.PushViewController(categoriesViewController, false);
 			window.RootViewController = navController;
 			window.MakeKeyAndVisible ();
 			
