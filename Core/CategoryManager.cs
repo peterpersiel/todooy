@@ -2,20 +2,16 @@ using System;
 using System.Collections.Generic;
 
 namespace Todooy.Core {
-    /// Manager classes are an abstraction on the data access layers
-    /// </summary>
-    public static class CategoryManager {
-        static CategoryManager ()
-        {
 
-        }
+    public static class CategoryManager {
+        static CategoryManager () {}
         
         public static Category GetCategory(int id)
         {
             return RepositoryADO.GetCategory(id);
         }
         
-        public static IList<Category> GetCategories ()
+		public static List<Category> GetCategories ()
         {
             return new List<Category>(RepositoryADO.GetCategories());
         }

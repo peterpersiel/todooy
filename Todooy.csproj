@@ -63,7 +63,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
     <Reference Include="MonoTouch.Dialog-1" />
@@ -72,22 +71,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
+    <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="ApplicationLayer\TaskDialog.cs" />
     <Compile Include="Core\Task.cs" />
     <Compile Include="Core\TaskManager.cs" />
     <Compile Include="Core\Category.cs" />
     <Compile Include="Core\DatabaseADO.cs" />
     <Compile Include="Core\RepositoryADO.cs" />
     <Compile Include="Core\CategoryManager.cs" />
-    <Compile Include="ApplicationLayer\CategoryDialog.cs" />
     <Compile Include="Screens\TasksScreen.cs" />
     <Compile Include="Screens\CatergoriesScreen.cs" />
     <Compile Include="ApplicationLayer\TaskSource.cs" />
     <Compile Include="ApplicationLayer\CategorySource.cs" />
+    <Compile Include="Extensions\Epoch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -95,6 +94,7 @@
     <Folder Include="ApplicationLayer\" />
     <Folder Include="Resources\" />
     <Folder Include="Core\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />

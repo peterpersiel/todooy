@@ -8,87 +8,133 @@ using Todooy.ApplicationLayer;
 
 namespace Todooy.Screens {
 
-	/// <summary>
-	/// A UITableViewController that uses MonoTouch.Dialog - displays the list of Tasks
-	/// </summary>
 	public class TasksScreen : DialogViewController {
-		// 
-		List<Task> tasks;
+
+        public List<Task> Tasks;
 		
-		// MonoTouch.Dialog individual TaskDetails view (uses /AL/TaskDialog.cs wrapper class)
 		BindingContext context;
-		TaskDialog taskDialog;
+
 		Task currentTask;
+
 		DialogViewController detailsScreen;
 
-		public TasksScreen () : base (UITableViewStyle.Plain, null)
+        Category currentCategory;
+
+		public TasksScreen (Category category) : base (UITableViewStyle.Plain, null)
 		{
+			this.currentCategory = category;
+
 			Initialize ();
 		}
 		
 		protected void Initialize()
 		{
 			NavigationItem.SetRightBarButtonItem (new UIBarButtonItem (UIBarButtonSystemItem.Add), false);
+
 			NavigationItem.RightBarButtonItem.Clicked += (sender, e) => { ShowTaskDetails(new Task()); };
+
+			TableView.SeparatorInset = UIEdgeInsets.Zero;
 		}
 		
 		protected void ShowTaskDetails(Task task)
 		{
 			currentTask = task;
-			taskDialog = new TaskDialog (task);
-			context = new BindingContext (this, taskDialog, "Task Details");
+
+            currentTask.CategoryId = currentCategory.Id;
+
+			context = new BindingContext (
+				this, 
+				currentTask, 
+				task.Name == null ? "New Task" : task.Name
+			);
+
 			detailsScreen = new DialogViewController (context.Root, true);
+
 			ActivateController(detailsScreen);
 		}
+
 		public void SaveTask()
 		{
-			context.Fetch (); // re-populates with updated values
-			currentTask.Name = taskDialog.Name;
-			currentTask.Notes = taskDialog.Notes;
-			currentTask.Done = taskDialog.Done;
+			context.Fetch ();
+
 			TaskManager.SaveTask(currentTask);
+
 			NavigationController.PopViewControllerAnimated (true);
 		}
+
 		public void DeleteTask ()
 		{
-			if (currentTask.ID >= 0)
-				TaskManager.DeleteTask (currentTask.ID);
+            if (currentTask.Id >= 0)
+                TaskManager.DeleteTask (currentTask.Id);
+
 			NavigationController.PopViewControllerAnimated (true);
 		}
 
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
-			
-			// reload/refresh
-			PopulateTable();			
+
+			PopulateTable();
+
+			NavigationItem.SetHidesBackButton (false, false);
+		}
+
+		public override void ViewWillDisappear (bool animated)
+		{
+			base.ViewWillDisappear (animated);
+
+			NavigationItem.SetHidesBackButton (true, false);
 		}
 		
-		protected void PopulateTable()
+		public void PopulateTable()
 		{
 			var s = new Section ();
 				
-			Root = new RootElement("Tasks") {s};
-			
-			tasks = TaskManager.GetTasks().ToList();
-			
-			tasks.ForEach(t => {
-				s.Add(new CheckboxElement ((t.Name == "" ? "<new task>" : t.Name), t.Done));
-            });
+			Root = new RootElement(currentCategory.Name) {s};
 
+            Tasks = TaskManager.GetTasks(currentCategory.Id).ToList();
+
+			Tasks.ForEach(t => {
+                    
+                StyledStringElement sse = new StyledStringElement (
+                    string.IsNullOrEmpty(t.Name) ? "<New Task>" : t.Name, 
+                    null, 
+                    UITableViewCellStyle.Subtitle
+                );
+
+                if (t.Done) {
+                    sse.Accessory = UITableViewCellAccessory.Checkmark;
+                }
+
+                if (t.DueDate) {
+                    sse.Value = t.Date.ToShortDateString();
+
+					if (t.Date.Date > DateTime.Today) {
+						sse.DetailColor = UIColor.Green;
+					} else if (t.Date.Date <= DateTime.Today) {
+						sse.DetailColor = UIColor.Red;
+                    }
+                }
+
+                s.Add(sse);
+			});
 		}
+
 		public override void Selected (MonoTouch.Foundation.NSIndexPath indexPath)
 		{
-			var task = tasks[indexPath.Row];
+			var task = Tasks[indexPath.Row];
+
 			ShowTaskDetails(task);
 		}
+
 		public override Source CreateSizingSource (bool unevenRows)
 		{
 			return new TaskSource (this);
 		}
+
 		public void DeleteTaskRow(int rowId)
 		{
-			TaskManager.DeleteTask(tasks[rowId].ID);
+            TaskManager.DeleteTask(Tasks[rowId].Id);
 		}
 	}
 }

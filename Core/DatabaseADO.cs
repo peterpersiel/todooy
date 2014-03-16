@@ -1,16 +1,14 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-
-using Mono.Data.Sqlite;
 using System.IO;
 using System.Data;
+using Mono.Data.Sqlite;
+using System.Drawing;
+using Todooy.Extensions.Epoch;
 
 namespace Todooy.Core
 {
-	/// <summary>
-	/// TaskDatabase uses ADO.NET to create the tables and create,read,update,delete data
-	/// </summary>
 	public class DatabaseADO 
 	{
 		static object locker = new object ();
@@ -19,107 +17,159 @@ namespace Todooy.Core
 
 		public string path;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Tasky.DL.TaskDatabase"/> TaskDatabase. 
-		/// if the database doesn't exist, it will create the database and all the tables.
-		/// </summary>
 		public DatabaseADO (string dbPath) 
 		{
-			var output = "";
 			path = dbPath;
-			// create the tables
-			bool exists = File.Exists (dbPath);
+
+            bool exists = File.Exists (dbPath);
 
 			if (!exists) {
 				connection = new SqliteConnection ("Data Source=" + dbPath);
 
 				connection.Open ();
+
 				var commands = new[] {
-					"CREATE TABLE [Tasks] (_id INTEGER PRIMARY KEY ASC, CategoryId INTEGER, Name NTEXT, Notes NTEXT, Done INTEGER, FOREIGN KEY (CategoryId) REFERENCES Categories(_id));",
-					"CREATE TABLE [Categories] (_id INTEGER PRIMARY KEY ASC, Name NTEXT);"
+                    "CREATE TABLE [Category] (" +
+						"Id INTEGER NOT NULL PRIMARY KEY ASC, " +
+						"Name NTEXT, " +
+						"Color INTEGER" +
+					");",
+					"CREATE TABLE [Task] (" +
+						"Id INTEGER NOT NULL PRIMARY KEY ASC," +
+						"Name NTEXT, " +
+						"Notes NTEXT, " +
+						"Done INTEGER, " +
+                        "Date INTEGER, " +
+                        "CategoryId INTEGER," +
+                       "FOREIGN KEY (CategoryId) REFERENCES Category(Id)" +
+					");",
 				};
+
 				foreach (var command in commands) {
 					using (var c = connection.CreateCommand ()) {
 						c.CommandText = command;
-						var i = c.ExecuteNonQuery ();
+						c.ExecuteNonQuery ();
+
+						Console.WriteLine (command);
 					}
 				}
-			} else {
-				// already exists, do nothing. 
+
 			}
-			Console.WriteLine (output);
 		}
 		
-		/// <summary>Convert from DataReader to Category object</summary>
 		Category CategoryReader (SqliteDataReader r) {
 			var c = new Category ();
-			c.ID = Convert.ToInt32 (r ["_id"]);
-			c.Name = r ["Name"].ToString ();
+
+            c.Id    = Convert.ToInt32 (r ["Id"]);
+			c.Name  = r ["Name"].ToString ();
+			c.Color = (CategoryColor)Convert.ToInt32 (r ["Color"]);
+
 			return c;
 		}
 
-        public IEnumerable<Category> GetCategories ()
+		public IEnumerable<Category> GetCategories ()
 		{
 			var tl = new List<Category> ();
 
 			lock (locker) {
+
 				connection = new SqliteConnection ("Data Source=" + path);
+
 				connection.Open ();
-				using (var contents = connection.CreateCommand ()) {
-					contents.CommandText = "SELECT [_id], [Name] from [Categories]";
-					var r = contents.ExecuteReader ();
+
+				using (var command = connection.CreateCommand ()) {
+					command.CommandText = "SELECT [Id], [Name], [Color] " +
+										  "FROM [Category]";
+
+					var r = command.ExecuteReader ();
+
 					while (r.Read ()) {
 						tl.Add (CategoryReader(r));
 					}
 				}
+
 				connection.Close ();
 			}
+
 			return tl;
 		}
 
         public Category GetCategory (int id) 
 		{
 			var c = new Category ();
+
 			lock (locker) {
 				connection = new SqliteConnection ("Data Source=" + path);
+
 				connection.Open ();
+
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "SELECT [_id], [Name] from [Categories] WHERE [_id] = ?";
+					command.CommandText = "SELECT [Id], [Name], [Color] " +
+										  "FROM [Category]" +
+										  "WHERE [Id] = ?";
+
 					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = id });
+
 					var r = command.ExecuteReader ();
+
+					
 					while (r.Read ()) {
 						c = CategoryReader (r);
 						break;
 					}
 				}
+
 				connection.Close ();
 			}
+
 			return c;
 		}
 
 		public int SaveCategory (Category item) 
 		{
 			int r;
+
 			lock (locker) {
-				if (item.ID != 0) {
+
+                if (item.Id != 0) {
 					connection = new SqliteConnection ("Data Source=" + path);
+
 					connection.Open ();
+
 					using (var command = connection.CreateCommand ()) {
-						command.CommandText = "UPDATE [Categories] SET [Name] = ? WHERE [_id] = ?;";
+						command.CommandText = "UPDATE [Category] " +
+											  "SET [Name] = ?, [Color] = ?" +
+                                              "WHERE [Id] = ?;";
+
 						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Name });
+						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = (int)item.Color });
+                        command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.Id });
+
 						r = command.ExecuteNonQuery ();
+
 					}
+
 					connection.Close ();
+
 					return r;
 				} else {
 					connection = new SqliteConnection ("Data Source=" + path);
+
 					connection.Open ();
+
 					using (var command = connection.CreateCommand ()) {
-						command.CommandText = "INSERT INTO [Categories] ([Name]) VALUES (?)";
+						command.CommandText = "INSERT INTO [Category] ([Id], [Name], [Color]) " +
+											  "VALUES (NULL, ?, ?)";
+
 						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Name });
+						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = (int)item.Color });
+
 						r = command.ExecuteNonQuery ();
+
 					}
+
 					connection.Close ();
+
 					return r;
 				}
 
@@ -128,27 +178,49 @@ namespace Todooy.Core
 
 		public int DeleteCategory(int id) 
 		{
+			GetTasks(id).ToList().ForEach(t => {
+				DeleteTask(id);
+			});
+
 			lock (locker) {
 				int r;
+
 				connection = new SqliteConnection ("Data Source=" + path);
+
 				connection.Open ();
+
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "DELETE FROM [Categories] WHERE [_id] = ?;";
+					command.CommandText = "DELETE FROM [Category]" +
+										  "WHERE [Id] = ?;";
+
 					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = id});
+
 					r = command.ExecuteNonQuery ();
+
 				}
+
 				connection.Close ();
+
 				return r;
 			}
 		}
 
-		/// <summary>Convert from DataReader to Task object</summary>
 		Task TaskReader (SqliteDataReader r) {
 			var t = new Task ();
-			t.ID = Convert.ToInt32 (r ["_id"]);
-			t.Name = r ["Name"].ToString ();
-			t.Notes = r ["Notes"].ToString ();
-			t.Done = Convert.ToInt32 (r ["Done"]) == 1 ? true : false;
+
+            t.Id    	 = Convert.ToInt32 (r ["Id"]);
+			t.Name  	 = r ["Name"].ToString ();
+			t.Notes 	 = r ["Notes"].ToString ();
+			t.Done  	 = Convert.ToInt32 (r ["Done"]) == 1 ? true : false;
+			t.CategoryId = Convert.ToInt32 (r ["CategoryId"]);
+
+			if (r ["Date"].ToString().Length == 0) {
+				t.DueDate = false;
+			} else {
+				t.DueDate = true;
+				t.Date	  = Convert.ToInt32(r ["Date"]).FromUnix();
+			}
+
 			return t;
 		}
 
@@ -158,70 +230,132 @@ namespace Todooy.Core
 
 			lock (locker) {
 				connection = new SqliteConnection ("Data Source=" + path);
+
 				connection.Open ();
+
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "SELECT [_id], [Name], [Notes], [Done] from [Tasks] WHERE [CategoryId] = ?";
+                    command.CommandText = "SELECT [Id], [Name], [Notes], [Done], [Date], [CategoryId] " +
+										  "FROM [Task] " +
+										  "WHERE [CategoryId] = ?" +
+										  "ORDER BY Done,Date ASC";
+
 					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = categoryId });
+
 					var r = command.ExecuteReader ();
+
 					while (r.Read ()) {
 						tl.Add (TaskReader(r));
 					}
 				}
+
 				connection.Close ();
 			}
+
 			return tl;
 		}
 
 		public Task GetTask (int id) 
 		{
 			var t = new Task ();
+
 			lock (locker) {
 				connection = new SqliteConnection ("Data Source=" + path);
+
 				connection.Open ();
+
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "SELECT [_id], [Name], [Notes], [Done] from [Items] WHERE [_id] = ?";
+                    command.CommandText = "SELECT [Id], [Name], [Notes], [Done], [Date], [CategoryId] " +
+                                          "FROM [Task] WHERE" +
+										  "[Id] = ?";
+
 					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = id });
+
 					var r = command.ExecuteReader ();
+
+					
 					while (r.Read ()) {
 						t = TaskReader (r);
 						break;
 					}
 				}
+
 				connection.Close ();
 			}
+
 			return t;
 		}
 
 		public int SaveTask (Task item) 
 		{
 			int r;
+
 			lock (locker) {
-				if (item.ID != 0) {
+                if (item.Id != 0) {
 					connection = new SqliteConnection ("Data Source=" + path);
+
 					connection.Open ();
+
 					using (var command = connection.CreateCommand ()) {
-						command.CommandText = "UPDATE [Tasks] SET [Name] = ?, [Notes] = ?, [Done] = ?, [CategoryId] = ? WHERE [_id] = ?;";
+
+
+						command.CommandText = "UPDATE [Task] ";
+
+						if (item.DueDate) {
+							command.CommandText += "SET [Name] = ?, [Notes] = ?, [Done] = ?, [Date] = ?, [CategoryId] = ? ";
+						} else {
+							command.CommandText += "SET [Name] = ?, [Notes] = ?, [Done] = ?, [Date] = NULL, [CategoryId] = ? ";
+						}
+                        
+						command.CommandText += "WHERE [Id] = ?;";
+
 						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Name });
 						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Notes });
 						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.Done });
+
+						if (item.DueDate) {
+							command.Parameters.Add(new SqliteParameter(DbType.Int32) { Value = item.Date.ToUnix() });
+						}
+
 						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.CategoryId });
-						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.ID });
+                        command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.Id });
+
 						r = command.ExecuteNonQuery ();
+
 					}
+
 					connection.Close ();
+
 					return r;
 				} else {
 					connection = new SqliteConnection ("Data Source=" + path);
 					connection.Open ();
+
 					using (var command = connection.CreateCommand ()) {
-						command.CommandText = "INSERT INTO [Tasks] ([Name], [Notes], [Done], [CategoryId]) VALUES (? ,?, ?, ?)";
+						command.CommandText = "INSERT INTO [Task] ([Id], [Name], [Notes], [Done], [Date], [CategoryId])";
+
+						if (item.DueDate) {
+							command.CommandText += "VALUES (NULL, ?, ?, ?, ?, ?)";
+						} else {
+							command.CommandText += "VALUES (NULL, ?, ?, ?, NULL, ?)";
+						}
+
 						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Name });
 						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Notes });
 						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.Done });
+
+
+						if (item.DueDate) {
+							command.Parameters.Add(new SqliteParameter(DbType.Int32) { Value = item.Date.ToUnix() });
+						}
+
 						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.CategoryId });
+
 						r = command.ExecuteNonQuery ();
+
 					}
+
 					connection.Close ();
+
 					return r;
 				}
 
@@ -232,14 +366,23 @@ namespace Todooy.Core
 		{
 			lock (locker) {
 				int r;
+
 				connection = new SqliteConnection ("Data Source=" + path);
+
 				connection.Open ();
+
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "DELETE FROM [Tasks] WHERE [_id] = ?;";
+					command.CommandText = "DELETE FROM [Task] " +
+										  "WHERE [Id] = ?;";
+
 					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = id});
+
 					r = command.ExecuteNonQuery ();
+
 				}
+
 				connection.Close ();
+
 				return r;
 			}
 		}

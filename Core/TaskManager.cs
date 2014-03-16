@@ -2,13 +2,9 @@ using System;
 using System.Collections.Generic;
 
 namespace Todooy.Core {
-	/// Manager classes are an abstraction on the data access layers
-	/// </summary>
+	
 	public static class TaskManager {
-		static TaskManager ()
-		{
-
-		}
+        static TaskManager () {}
 		
 		public static Task GetTask(int id)
 		{

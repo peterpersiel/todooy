@@ -8,35 +8,39 @@ using Todooy.Core;
 
 namespace Todooy.ApplicationLayer {
 
-	/// <summary>
-	/// This is our subclass of the fixed-size Source that allows editing
-	/// </summary>
 	public class TaskSource : DialogViewController.Source {
 		public TaskSource (DialogViewController dvc) : base (dvc) {}
 		
 		public override bool CanEditRow (UITableView tableView, NSIndexPath indexPath)
 		{
-			// Trivial implementation: we let all rows be editable, regardless of section or row
 			return true;
 		}
-		
+
 		public override UITableViewCellEditingStyle EditingStyleForRow (UITableView tableView, NSIndexPath indexPath)
 		{
-			// trivial implementation: show a delete button always
 			return UITableViewCellEditingStyle.Delete;
 		}
 		
-		public override void CommitEditingStyle (UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath)
+		public override void CommitEditingStyle (UITableView tableView, UITableViewCellEditingStyle editingStyle, MonoTouch.Foundation.NSIndexPath indexPath)
 		{
-			//
-			// In this method, we need to actually carry out the request
-			//
-			var section = Container.Root [indexPath.Section];
-			var element = section [indexPath.Row] as StringElement;
-			section.Remove (element);
-
 			var dvc = Container as Screens.TasksScreen;
-			dvc.DeleteTaskRow (indexPath.Row);
+
+			switch (editingStyle) {
+    			case UITableViewCellEditingStyle.Delete:
+
+    				var section = Container.Root [indexPath.Section];
+    				var element = section [indexPath.Row] as StringElement;
+
+    				section.Remove (element);
+
+    				dvc.DeleteTaskRow (indexPath.Row);
+
+    				break;
+
+    			case UITableViewCellEditingStyle.None:
+    				Console.WriteLine ("CommitEditingStyle:None called");
+    				break;
+			}
 		}
 	}
 }
