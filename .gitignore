@@ -7,14 +7,6 @@
 *.user
 *.pfx
 
-*/bin/*
-*/obj/*
-*/*/bin/*
-*/*/obj/*
-*/*/*/bin/*
-*/*/*/obj/*
+bin/
+obj/
 *_ReSharper.*/
-
-*/*/Resource.designer.cs
-*/*/*/Resource.designer.cs
-*/*/*/*/Resource.designer.cs
