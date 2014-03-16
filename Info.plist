@@ -2,23 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>Resources/icon-57.png</string>
-		<string>Resources/icon-114.png</string>
-		<string>Resources/icon-72.png</string>
-		<string>Resources/icon-29.png</string>
-		<string>Resources/icon-58.png</string>
-		<string>Resources/icon-50.png</string>
-		<string>Resources/icon-144.png</string>
-		<string>Resources/icon-100.png</string>
-	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
-		<integer>2</integer>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
@@ -32,8 +20,6 @@
 	<string>7.1</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.peterpersiel.todooy</string>
-	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleBlackOpaque</string>
 	<key>UIStatusBarTintParameters</key>
 	<dict>
 		<key>UINavigationBar</key>
@@ -41,8 +27,16 @@
 			<key>Style</key>
 			<string>UIBarStyleBlack</string>
 			<key>Translucent</key>
-			<true/>
+			<false/>
 		</dict>
 	</dict>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleBlackOpaque</string>
+	<key>UIStatusBarHidden</key>
+	<true/>
+	<key>XSLaunchImageAssets</key>
+	<string>Resources/Images.xcassets/LaunchImage.launchimage</string>
+	<key>XSAppIconAssets</key>
+	<string>Resources/Images.xcassets/AppIcons.appiconset</string>
 </dict>
 </plist>

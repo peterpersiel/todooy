@@ -1,0 +1,11 @@
+mscorlib.dll
+System.dll
+System.Core.dll
+System.Xml.dll
+Mono.Data.Sqlite.dll
+System.Data.dll
+Mono.Data.Tds.dll
+Mono.Security.dll
+System.Transactions.dll
+MonoTouch.Dialog-1.dll
+System.Json.dll

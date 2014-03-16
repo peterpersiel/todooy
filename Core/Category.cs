@@ -53,10 +53,5 @@ namespace Todooy.Core {
 		[OnTap ("SaveCategory")]
 		[Alignment (UITextAlignment.Center)]
 		public string Save;
-
-		[Section ("")]
-		[OnTap ("DeleteCategory")]
-		[Alignment (UITextAlignment.Center)]
-		public string Delete;
     }
 }
