@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Todooy.Extensions.Epoch
+namespace Todooy.Extensions
 {
-	public class Epoch
+    public static class Epoch
 	{
 		static readonly DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0);
 

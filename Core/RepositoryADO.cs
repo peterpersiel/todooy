@@ -5,19 +5,19 @@ using System.IO;
 namespace Todooy.Core {
 	public class RepositoryADO {
 		DatabaseADO db = null;
-		protected static string dbLocation;		
-		protected static RepositoryADO me;		
+		protected static string DbLocation;		
+		protected static RepositoryADO Me;		
 
 		static RepositoryADO ()
 		{
-			me = new RepositoryADO();
+			Me = new RepositoryADO();
 		}
 
 		protected RepositoryADO ()
 		{
-			dbLocation = DatabaseFilePath;
+			DbLocation = DatabaseFilePath;
 
-			db = new DatabaseADO(dbLocation);
+			db = new DatabaseADO(DbLocation);
 		}
 
 		public static string DatabaseFilePath {
@@ -37,42 +37,42 @@ namespace Todooy.Core {
 
 		public static Task GetTask(int id)
 		{
-			return me.db.GetTask(id);
+			return Me.db.GetTask(id);
 		}
 
 		public static IEnumerable<Task> GetTasks (int categoryId)
 		{
-			return me.db.GetTasks(categoryId);
+			return Me.db.GetTasks(categoryId);
 		}
 
 		public static int SaveTask (Task item)
 		{
-			return me.db.SaveTask(item);
+			return Me.db.SaveTask(item);
 		}
 
 		public static int DeleteTask(int id)
 		{
-			return me.db.DeleteTask(id);
+			return Me.db.DeleteTask(id);
 		}
 		
 		public static Category GetCategory(int id)
 		{
-			return me.db.GetCategory(id);
+			return Me.db.GetCategory(id);
 		}
 
 		public static IEnumerable<Category> GetCategories ()
 		{
-			return me.db.GetCategories();
+			return Me.db.GetCategories();
 		}
 
 		public static int SaveCategory (Category item)
 		{
-			return me.db.SaveCategory(item);
+			return Me.db.SaveCategory(item);
 		}
 
 		public static int DeleteCategory(int id)
 		{
-			return me.db.DeleteCategory(id);
+			return Me.db.DeleteCategory(id);
 		}
 	}
 }

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using MonoTouch.UIKit;
 using MonoTouch.Dialog;
-using Todooy.Core;
+using MonoTouch.UIKit;
 using Todooy.ApplicationLayer;
+using Todooy.Core;
 
 namespace Todooy.Screens {
 
@@ -103,7 +102,7 @@ namespace Todooy.Screens {
         {
             var s = new Section ();
                 
-			Root = new RootElement("Categories   \t") {s};
+			Root = new RootElement("Categories") {s};
             
 			Categories = CategoryManager.GetCategories().ToList();
             

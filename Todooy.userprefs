@@ -1,25 +1,24 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Core/Category.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina4_64.7.1" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Core/DatabaseADO.cs">
     <Files>
-      <File FileName="ApplicationLayer/CategorySource.cs" Line="37" Column="1" />
-      <File FileName="Core/Category.cs" Line="55" Column="22" />
-      <File FileName="Core/CategoryManager.cs" Line="1" Column="1" />
-      <File FileName="ApplicationLayer/TaskSource.cs" Line="1" Column="1" />
-      <File FileName="Core/Task.cs" Line="1" Column="1" />
-      <File FileName="Screens/TasksScreen.cs" Line="1" Column="1" />
+      <File FileName="Extensions/Epoch.cs" Line="5" Column="18" />
+      <File FileName="Screens/CatergoriesScreen.cs" Line="9" Column="18" />
+      <File FileName="Screens/TasksScreen.cs" Line="9" Column="18" />
+      <File FileName="AppDelegate.cs" Line="1" Column="1" />
       <File FileName="Main.cs" Line="1" Column="1" />
+      <File FileName="Core/Category.cs" Line="7" Column="18" />
+      <File FileName="Core/CategoryManager.cs" Line="4" Column="18" />
+      <File FileName="Core/DatabaseADO.cs" Line="18" Column="18" />
       <File FileName="Core/RepositoryADO.cs" Line="1" Column="1" />
-      <File FileName="Core/Epoch.cs" Line="1" Column="1" />
-      <File FileName="Extensions/Epoch.cs" Line="1" Column="1" />
+      <File FileName="Core/Task.cs" Line="1" Column="1" />
+      <File FileName="Core/TaskManager.cs" Line="1" Column="1" />
       <File FileName="Info.plist" />
-      <File FileName="Core/DatabaseADO.cs" Line="1" Column="1" />
-      <File FileName="Screens/CatergoriesScreen.cs" Line="1" Column="1" />
+      <File FileName=".gitignore" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <AuthorInfo Name="Peter Persiel" Email="" Copyright="" Company="" Trademark="" />
 </Properties>

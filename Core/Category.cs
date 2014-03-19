@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using MonoTouch.UIKit;
+﻿using System.Collections.Generic;
 using MonoTouch.Dialog;
+using MonoTouch.UIKit;
 
 
 namespace Todooy.Core {
@@ -46,7 +45,7 @@ namespace Todooy.Core {
         [Entry("Category Name")]
         public string Name;
 
-		[Caption ("Color")]
+		[Caption("Color")]
         public CategoryColor Color;
 
 		[Section ("")]

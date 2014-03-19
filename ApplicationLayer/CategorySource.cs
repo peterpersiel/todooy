@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using MonoTouch.UIKit;
 using MonoTouch.Dialog;
 using MonoTouch.Foundation;
-using Todooy.Core;
+using MonoTouch.UIKit;
 
 namespace Todooy.ApplicationLayer {
 
@@ -26,14 +23,17 @@ namespace Todooy.ApplicationLayer {
 			var dvc = Container as Screens.CategoriesScreen;
 
 			switch (editingStyle) {
-				case UITableViewCellEditingStyle.Delete:
+                case UITableViewCellEditingStyle.Delete:
 
-					var section = Container.Root [indexPath.Section];
-					var element = section [indexPath.Row] as StringElement;
+                    var section = Container.Root[indexPath.Section];
+                    var element = section[indexPath.Row] as StringElement;
 
-					section.Remove (element);
+                    section.Remove(element);
 
-					dvc.DeleteCategoryRow (indexPath.Row);
+                    if (dvc != null)
+                    {
+                        dvc.DeleteCategoryRow(indexPath.Row);
+                    }
 
 					break;
 

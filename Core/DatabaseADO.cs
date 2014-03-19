@@ -1,11 +1,10 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.IO;
 using System.Data;
+using System.IO;
+using System.Linq;
 using Mono.Data.Sqlite;
-using System.Drawing;
-using Todooy.Extensions.Epoch;
+using Todooy.Extensions;
 
 namespace Todooy.Core
 {
@@ -13,20 +12,20 @@ namespace Todooy.Core
 	{
 		static object locker = new object ();
 
-		public SqliteConnection connection;
+		public SqliteConnection Connection;
 
-		public string path;
+		public string Path;
 
 		public DatabaseADO (string dbPath) 
 		{
-			path = dbPath;
+			Path = dbPath;
 
             bool exists = File.Exists (dbPath);
 
 			if (!exists) {
-				connection = new SqliteConnection ("Data Source=" + dbPath);
+				Connection = new SqliteConnection ("Data Source=" + dbPath);
 
-				connection.Open ();
+				Connection.Open ();
 
 				var commands = new[] {
                     "CREATE TABLE [Category] (" +
@@ -46,7 +45,7 @@ namespace Todooy.Core
 				};
 
 				foreach (var command in commands) {
-					using (var c = connection.CreateCommand ()) {
+					using (var c = Connection.CreateCommand ()) {
 						c.CommandText = command;
 						c.ExecuteNonQuery ();
 
@@ -73,11 +72,11 @@ namespace Todooy.Core
 
 			lock (locker) {
 
-				connection = new SqliteConnection ("Data Source=" + path);
+				Connection = new SqliteConnection ("Data Source=" + Path);
 
-				connection.Open ();
+				Connection.Open ();
 
-				using (var command = connection.CreateCommand ()) {
+				using (var command = Connection.CreateCommand ()) {
 					command.CommandText = "SELECT [Id], [Name], [Color] " +
 										  "FROM [Category]";
 
@@ -88,7 +87,7 @@ namespace Todooy.Core
 					}
 				}
 
-				connection.Close ();
+				Connection.Close ();
 			}
 
 			return tl;
@@ -99,11 +98,11 @@ namespace Todooy.Core
 			var c = new Category ();
 
 			lock (locker) {
-				connection = new SqliteConnection ("Data Source=" + path);
+				Connection = new SqliteConnection ("Data Source=" + Path);
 
-				connection.Open ();
+				Connection.Open ();
 
-				using (var command = connection.CreateCommand ()) {
+				using (var command = Connection.CreateCommand ()) {
 					command.CommandText = "SELECT [Id], [Name], [Color] " +
 										  "FROM [Category]" +
 										  "WHERE [Id] = ?";
@@ -119,7 +118,7 @@ namespace Todooy.Core
 					}
 				}
 
-				connection.Close ();
+				Connection.Close ();
 			}
 
 			return c;
@@ -132,11 +131,11 @@ namespace Todooy.Core
 			lock (locker) {
 
                 if (item.Id != 0) {
-					connection = new SqliteConnection ("Data Source=" + path);
+					Connection = new SqliteConnection ("Data Source=" + Path);
 
-					connection.Open ();
+					Connection.Open ();
 
-					using (var command = connection.CreateCommand ()) {
+					using (var command = Connection.CreateCommand ()) {
 						command.CommandText = "UPDATE [Category] " +
 											  "SET [Name] = ?, [Color] = ?" +
                                               "WHERE [Id] = ?;";
@@ -149,15 +148,15 @@ namespace Todooy.Core
 
 					}
 
-					connection.Close ();
+					Connection.Close ();
 
 					return r;
 				} else {
-					connection = new SqliteConnection ("Data Source=" + path);
+					Connection = new SqliteConnection ("Data Source=" + Path);
 
-					connection.Open ();
+					Connection.Open ();
 
-					using (var command = connection.CreateCommand ()) {
+					using (var command = Connection.CreateCommand ()) {
 						command.CommandText = "INSERT INTO [Category] ([Id], [Name], [Color]) " +
 											  "VALUES (NULL, ?, ?)";
 
@@ -168,7 +167,7 @@ namespace Todooy.Core
 
 					}
 
-					connection.Close ();
+					Connection.Close ();
 
 					return r;
 				}
@@ -185,11 +184,11 @@ namespace Todooy.Core
 			lock (locker) {
 				int r;
 
-				connection = new SqliteConnection ("Data Source=" + path);
+				Connection = new SqliteConnection ("Data Source=" + Path);
 
-				connection.Open ();
+				Connection.Open ();
 
-				using (var command = connection.CreateCommand ()) {
+				using (var command = Connection.CreateCommand ()) {
 					command.CommandText = "DELETE FROM [Category]" +
 										  "WHERE [Id] = ?;";
 
@@ -199,7 +198,7 @@ namespace Todooy.Core
 
 				}
 
-				connection.Close ();
+				Connection.Close ();
 
 				return r;
 			}
@@ -229,11 +228,11 @@ namespace Todooy.Core
 			var tl = new List<Task> ();
 
 			lock (locker) {
-				connection = new SqliteConnection ("Data Source=" + path);
+				Connection = new SqliteConnection ("Data Source=" + Path);
 
-				connection.Open ();
+				Connection.Open ();
 
-				using (var command = connection.CreateCommand ()) {
+				using (var command = Connection.CreateCommand ()) {
                     command.CommandText = "SELECT [Id], [Name], [Notes], [Done], [Date], [CategoryId] " +
 										  "FROM [Task] " +
 										  "WHERE [CategoryId] = ?" +
@@ -248,7 +247,7 @@ namespace Todooy.Core
 					}
 				}
 
-				connection.Close ();
+				Connection.Close ();
 			}
 
 			return tl;
@@ -259,11 +258,11 @@ namespace Todooy.Core
 			var t = new Task ();
 
 			lock (locker) {
-				connection = new SqliteConnection ("Data Source=" + path);
+				Connection = new SqliteConnection ("Data Source=" + Path);
 
-				connection.Open ();
+				Connection.Open ();
 
-				using (var command = connection.CreateCommand ()) {
+				using (var command = Connection.CreateCommand ()) {
                     command.CommandText = "SELECT [Id], [Name], [Notes], [Done], [Date], [CategoryId] " +
                                           "FROM [Task] WHERE" +
 										  "[Id] = ?";
@@ -279,7 +278,7 @@ namespace Todooy.Core
 					}
 				}
 
-				connection.Close ();
+				Connection.Close ();
 			}
 
 			return t;
@@ -291,11 +290,11 @@ namespace Todooy.Core
 
 			lock (locker) {
                 if (item.Id != 0) {
-					connection = new SqliteConnection ("Data Source=" + path);
+					Connection = new SqliteConnection ("Data Source=" + Path);
 
-					connection.Open ();
+					Connection.Open ();
 
-					using (var command = connection.CreateCommand ()) {
+					using (var command = Connection.CreateCommand ()) {
 
 
 						command.CommandText = "UPDATE [Task] ";
@@ -323,14 +322,14 @@ namespace Todooy.Core
 
 					}
 
-					connection.Close ();
+					Connection.Close ();
 
 					return r;
 				} else {
-					connection = new SqliteConnection ("Data Source=" + path);
-					connection.Open ();
+					Connection = new SqliteConnection ("Data Source=" + Path);
+					Connection.Open ();
 
-					using (var command = connection.CreateCommand ()) {
+					using (var command = Connection.CreateCommand ()) {
 						command.CommandText = "INSERT INTO [Task] ([Id], [Name], [Notes], [Done], [Date], [CategoryId])";
 
 						if (item.DueDate) {
@@ -354,7 +353,7 @@ namespace Todooy.Core
 
 					}
 
-					connection.Close ();
+					Connection.Close ();
 
 					return r;
 				}
@@ -367,11 +366,11 @@ namespace Todooy.Core
 			lock (locker) {
 				int r;
 
-				connection = new SqliteConnection ("Data Source=" + path);
+				Connection = new SqliteConnection ("Data Source=" + Path);
 
-				connection.Open ();
+				Connection.Open ();
 
-				using (var command = connection.CreateCommand ()) {
+				using (var command = Connection.CreateCommand ()) {
 					command.CommandText = "DELETE FROM [Task] " +
 										  "WHERE [Id] = ?;";
 
@@ -381,7 +380,7 @@ namespace Todooy.Core
 
 				}
 
-				connection.Close ();
+				Connection.Close ();
 
 				return r;
 			}
