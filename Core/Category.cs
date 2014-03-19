@@ -21,9 +21,9 @@ namespace Todooy.Core {
 
 		public Category (Category category)
         {
-			this.Color = category.Color;
-            this.Id    = category.Id;
-            this.Name  = category.Name;
+			Color = category.Color;
+            Id    = category.Id;
+            Name = category.Name;
         }
 
         public Category () {}

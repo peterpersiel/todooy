@@ -11,12 +11,12 @@ namespace Todooy.Core {
 
 		public Task (Task task)
 		{
-            this.Id          = task.Id;
-            this.Name        = task.Name;
-            this.Notes       = task.Notes;
-            this.Done        = task.Done;
-            this.Date        = task.Date;
-            this.CategoryId  = task.CategoryId;
+            Id          = task.Id;
+            Name        = task.Name;
+            Notes       = task.Notes;
+            Done        = task.Done;
+            Date        = task.Date;
+            CategoryId = task.CategoryId;
 		}
 
         public int Id;
