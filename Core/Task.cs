@@ -6,6 +6,7 @@ using Todooy.Core;
 namespace Todooy.Core {
 
     public class Task {
+        
         public Task () {}
 
     	public Task (Task task) {

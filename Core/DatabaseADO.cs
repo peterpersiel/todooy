@@ -8,6 +8,7 @@ using Todooy.Extensions;
 
 namespace Todooy.Core {
 	public class DatabaseADO {
+		
 		static object locker = new object ();
 
 		public SqliteConnection Connection;

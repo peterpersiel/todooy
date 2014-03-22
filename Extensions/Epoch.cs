@@ -1,7 +1,9 @@
 ﻿using System;
 
 namespace Todooy.Extensions {
+
     public static class Epoch {
+    	
 		static readonly DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0);
 
 		static readonly DateTimeOffset epochDateTimeOffset = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
@@ -29,6 +31,7 @@ namespace Todooy.Extensions {
 
 
 	public static class EpochExtensions {
+
 		public static int ToUnix(this DateTime dateTime) {
 			return Epoch.ToUnix(dateTime);
 		}

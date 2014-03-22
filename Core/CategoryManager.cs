@@ -3,6 +3,7 @@ using System.Collections.Generic;
 namespace Todooy.Core {
 
     public static class CategoryManager {
+        
         static CategoryManager () {}
 
         public static Category GetCategory(int id) {

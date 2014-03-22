@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace Todooy.Core {
+	
 	public class RepositoryADO {
+		
 		DatabaseADO db = null;
 
 		protected static string DbLocation;
-			
+
 		protected static RepositoryADO Me;		
 
 		static RepositoryADO () {

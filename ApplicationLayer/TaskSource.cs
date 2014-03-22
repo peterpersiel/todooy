@@ -6,6 +6,7 @@ using MonoTouch.UIKit;
 namespace Todooy.ApplicationLayer {
 
     public class TaskSource : DialogViewController.Source {
+        
         public TaskSource (DialogViewController dvc) : base (dvc) {}
 
         public override bool CanEditRow (UITableView tableView, NSIndexPath indexPath) {

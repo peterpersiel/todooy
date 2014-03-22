@@ -5,8 +5,9 @@ using MonoTouch.UIKit;
 
 namespace Todooy.ApplicationLayer {
 
-public class CategorySource : DialogViewController.Source {
-    public CategorySource (DialogViewController dvc) : base (dvc) {}
+    public class CategorySource : DialogViewController.Source {
+        
+        public CategorySource (DialogViewController dvc) : base (dvc) {}
 
         public override bool CanEditRow (UITableView tableView, NSIndexPath indexPath) {
             return true;
