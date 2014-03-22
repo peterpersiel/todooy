@@ -177,9 +177,7 @@ namespace Todooy.Core
 
 		public int DeleteCategory(int id) 
 		{
-			GetTasks(id).ToList().ForEach(t => {
-				DeleteTask(id);
-			});
+			GetTasks(id).ToList().ForEach(t => DeleteTask(id));
 
 			lock (locker) {
 				int r;

@@ -1,9 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina4_64.7.1" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Core/Category.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.1" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ApplicationLayer/CategorySource.cs">
     <Files>
-      <File FileName="Core/Task.cs" Line="14" Column="15" />
-      <File FileName="Core/Category.cs" Line="25" Column="33" />
+      <File FileName="ApplicationLayer/CategorySource.cs" Line="19" Column="153" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

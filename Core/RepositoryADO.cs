@@ -24,8 +24,6 @@ namespace Todooy.Core {
 			get { 
 				var sqliteFilename = "todooy.db3";
 				
-				// we need to put in /Library/ on iOS5.1 to meet Apple's iCloud terms
-				// (they don't want non-user-generated data in Documents)
 				string documentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 				string libraryPath = Path.Combine (documentsPath, "..", "Library");
 

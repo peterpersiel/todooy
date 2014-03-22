@@ -2,7 +2,6 @@
 using MonoTouch.Dialog;
 using MonoTouch.UIKit;
 
-
 namespace Todooy.Core {
 
 	public enum CategoryColor {
@@ -19,8 +18,7 @@ namespace Todooy.Core {
 
     public class Category {
 
-		public Category (Category category)
-        {
+		public Category (Category category) {
 			Color = category.Color;
             Id    = category.Id;
             Name = category.Name;

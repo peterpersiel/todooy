@@ -8,18 +8,15 @@ namespace Todooy.ApplicationLayer {
     public class CategorySource : DialogViewController.Source {
         public CategorySource (DialogViewController dvc) : base (dvc) {}
 
-		public override bool CanEditRow (UITableView tableView, NSIndexPath indexPath)
-		{
+		public override bool CanEditRow (UITableView tableView, NSIndexPath indexPath) {
 			return true;
 		}
 			
-		public override UITableViewCellEditingStyle EditingStyleForRow (UITableView tableView, NSIndexPath indexPath)
-		{
+		public override UITableViewCellEditingStyle EditingStyleForRow (UITableView tableView, NSIndexPath indexPath) {
 			return UITableViewCellEditingStyle.Delete;
 		}
 
-		public override void CommitEditingStyle (UITableView tableView, UITableViewCellEditingStyle editingStyle, MonoTouch.Foundation.NSIndexPath indexPath)
-		{
+		public override void CommitEditingStyle (UITableView tableView, UITableViewCellEditingStyle editingStyle, MonoTouch.Foundation.NSIndexPath indexPath) {
 			var dvc = Container as Screens.CategoriesScreen;
 
 			switch (editingStyle) {

@@ -1,8 +1,7 @@
 using System;
+using MonoTouch.Dialog;
 using MonoTouch.UIKit;
 using Todooy.Core;
-using MonoTouch.Dialog;
-using Todooy.ApplicationLayer;
 
 namespace Todooy.Core {
 

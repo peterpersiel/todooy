@@ -7,7 +7,6 @@ using Todooy.Core;
 
 namespace Todooy.Screens {
 
-
     public class CategoriesScreen : DialogViewController {
 
 		public List<Category> Categories;
@@ -20,14 +19,12 @@ namespace Todooy.Screens {
 
 		UITableViewController tasksControllerView;
 
-		public CategoriesScreen () : base (UITableViewStyle.Plain, null)
-        {
+		public CategoriesScreen () : base (UITableViewStyle.Plain, null) {
             Initialize ();
         }
         
-		protected void Initialize()
-        {
-			NavigationItem.SetLeftBarButtonItem (new UIBarButtonItem (UIBarButtonSystemItem.Edit), false);
+		protected void Initialize() {
+			NavigationItem.SetLeftBarButtonItem(new UIBarButtonItem (UIBarButtonSystemItem.Edit), false);
 
 			NavigationItem.LeftBarButtonItem.Clicked += (sender, e) => {
 				if (base.TableView.Editing) {
@@ -38,15 +35,14 @@ namespace Todooy.Screens {
 			};
 		
 
-            NavigationItem.SetRightBarButtonItem (new UIBarButtonItem (UIBarButtonSystemItem.Add), false);
+            NavigationItem.SetRightBarButtonItem(new UIBarButtonItem (UIBarButtonSystemItem.Add), false);
 
-            NavigationItem.RightBarButtonItem.Clicked += (sender, e) => { ShowCategoryDetails(new Category()); };
+            NavigationItem.RightBarButtonItem.Clicked += (sender, e) => ShowCategoryDetails(new Category());
 
 			TableView.SeparatorInset = UIEdgeInsets.Zero;
         }
 
-		public void ShowCategoryDetails(Category category)
-        {
+		public void ShowCategoryDetails(Category category) {
             currentCategory = category;
 
 			context = new BindingContext (this, currentCategory, "New Category");
@@ -56,8 +52,7 @@ namespace Todooy.Screens {
 			ActivateController(detailsScreen);
         }
 
-		protected void ShowCategoryTasks(Category category)
-		{
+		protected void ShowCategoryTasks(Category category) {
 			currentCategory = category;
 
 			tasksControllerView = new Screens.TasksScreen (category);
@@ -65,8 +60,7 @@ namespace Todooy.Screens {
 			NavigationController.PushViewController(tasksControllerView, true);
 		}
 
-        public void SaveCategory()
-        {
+        public void SaveCategory() {
 			context.Fetch();
 
             CategoryManager.SaveCategory(currentCategory);
@@ -74,16 +68,14 @@ namespace Todooy.Screens {
 			NavigationController.PopViewControllerAnimated (true);
 		}
 
-        public void DeleteCategory ()
-        {
+        public void DeleteCategory () {
             if (currentCategory.Id >= 0)
                 CategoryManager.DeleteCategory (currentCategory.Id);
             
 			NavigationController.PopViewControllerAnimated (true);
         }
 
-		public override void ViewWillAppear (bool animated)
-		{
+		public override void ViewWillAppear (bool animated) {
 			base.ViewWillAppear (animated);
 
 			PopulateTable();
@@ -91,15 +83,13 @@ namespace Todooy.Screens {
 			NavigationItem.SetHidesBackButton (false, false);
 		}
 
-		public override void ViewWillDisappear (bool animated)
-		{
+		public override void ViewWillDisappear (bool animated) {
 			base.ViewWillDisappear (animated);
 
 			NavigationItem.SetHidesBackButton (true, false);
 		}
         
-		public void PopulateTable()
-        {
+		public void PopulateTable() {
             var s = new Section ();
                 
 			Root = new RootElement("Categories") {s};
@@ -118,21 +108,18 @@ namespace Todooy.Screens {
         }
 
 
-		public override void Selected (MonoTouch.Foundation.NSIndexPath indexPath)
-		{
+		public override void Selected (MonoTouch.Foundation.NSIndexPath indexPath) {
 			var category = Categories[indexPath.Row];
 
 			ShowCategoryTasks(category);
 		}
 
 
-        public override Source CreateSizingSource (bool unevenRows)
-        {
+        public override Source CreateSizingSource (bool unevenRows) {
             return new CategorySource (this);
         }
 
-        public void DeleteCategoryRow(int rowId)
-        {
+        public void DeleteCategoryRow(int rowId) {
             CategoryManager.DeleteCategory(Categories[rowId].Id);
         }
     }

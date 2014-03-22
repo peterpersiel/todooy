@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using MonoTouch.UIKit;
 using MonoTouch.Dialog;
 using MonoTouch.Foundation;
+using MonoTouch.UIKit;
 
 namespace Todooy.ApplicationLayer {
 
