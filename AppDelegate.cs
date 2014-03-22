@@ -4,7 +4,7 @@ using MonoTouch.UIKit;
 namespace Todooy {
 
 	[Register ("AppDelegate")]
-	public partial class AppDelegate : UIApplicationDelegate {
+	public class AppDelegate : UIApplicationDelegate {
 
 		UIWindow window;
 
@@ -12,7 +12,7 @@ namespace Todooy {
 
         UITableViewController categoriesViewController;
 
-		public override bool FinishedLaunching (UIApplication app, NSDictionary options) {
+		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions) {
 			window = new UIWindow (UIScreen.MainScreen.Bounds);
 
 			navController = new UINavigationController ();

@@ -27,15 +27,15 @@ namespace Todooy.Core {
         public Category () {}
 
         public static IList<UIColor> CategoryColors = new List<UIColor> {
-        	MonoTouch.UIKit.UIColor.Red,
-        	MonoTouch.UIKit.UIColor.Green,
-        	MonoTouch.UIKit.UIColor.Blue,
-        	MonoTouch.UIKit.UIColor.Black,
-        	MonoTouch.UIKit.UIColor.Orange,
-        	MonoTouch.UIKit.UIColor.Brown,
-        	MonoTouch.UIKit.UIColor.Cyan,
-        	MonoTouch.UIKit.UIColor.Magenta,
-        	MonoTouch.UIKit.UIColor.Purple
+            UIColor.Red,
+            UIColor.Green,
+            UIColor.Blue,
+            UIColor.Black,
+            UIColor.Orange,
+            UIColor.Brown,
+            UIColor.Cyan,
+            UIColor.Magenta,
+            UIColor.Purple
         };
 
         public int Id;

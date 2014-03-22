@@ -17,7 +17,7 @@ namespace Todooy.ApplicationLayer {
             return UITableViewCellEditingStyle.Delete;
         }
 
-        public override void CommitEditingStyle (UITableView tableView, UITableViewCellEditingStyle editingStyle, MonoTouch.Foundation.NSIndexPath indexPath) {
+        public override void CommitEditingStyle (UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath) {
             var dvc = Container as Screens.CategoriesScreen;
 
             switch (editingStyle) {
@@ -28,8 +28,7 @@ namespace Todooy.ApplicationLayer {
 
                     section.Remove(element);
 
-                    if (dvc != null)
-                    {
+                    if (dvc != null) {
                         dvc.DeleteCategoryRow(indexPath.Row);
                     }
 

@@ -11,7 +11,7 @@ namespace Todooy.Extensions {
 		public static DateTime FromUnix(int secondsSinceepoch) {
 			return epochStart.AddSeconds(secondsSinceepoch);
 		}
-
+        
 		public static DateTimeOffset FromUnix(int secondsSinceEpoch, int timeZoneOffsetInMinutes) {
 			var utcDateTime = epochDateTimeOffset.AddSeconds(secondsSinceEpoch);
 			var offset = TimeSpan.FromMinutes(timeZoneOffsetInMinutes);
