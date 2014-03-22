@@ -15,11 +15,11 @@ namespace Todooy.Screens {
 
 		DialogViewController detailsScreen;
 
-        Category currentCategory;
+		Category currentCategory;
 
 		UITableViewController tasksControllerView;
 
-		public CategoriesScreen () : base (UITableViewStyle.Plain, null) {
+        public CategoriesScreen () : base (UITableViewStyle.Plain, null) {
             Initialize ();
         }
         
