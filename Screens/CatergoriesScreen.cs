@@ -20,7 +20,7 @@ namespace Todooy.Screens {
         UITableViewController tasksControllerView;
 
         public CategoriesScreen () : base (UITableViewStyle.Plain, null) {
-            Initialize ();
+            Initialize();
         }
 
         protected void Initialize() {

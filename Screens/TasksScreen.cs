@@ -8,93 +8,85 @@ using Todooy.Core;
 
 namespace Todooy.Screens {
 
-	public class TasksScreen : DialogViewController {
+    public class TasksScreen : DialogViewController {
 
         public List<Task> Tasks;
-		
-		BindingContext context;
 
-		Task currentTask;
+        BindingContext context;
 
-		DialogViewController detailsScreen;
+        Task currentTask;
+
+        DialogViewController detailsScreen;
 
         Category currentCategory;
 
-		public TasksScreen (Category category) : base (UITableViewStyle.Plain, null)
-		{
-			this.currentCategory = category;
+        public TasksScreen (Category category) : base (UITableViewStyle.Plain, null) {
+        	this.currentCategory = category;
 
-			Initialize ();
-		}
-		
-		protected void Initialize()
-		{
-			NavigationItem.SetRightBarButtonItem (new UIBarButtonItem (UIBarButtonSystemItem.Add), false);
+        	Initialize ();
+        }
 
-			NavigationItem.RightBarButtonItem.Clicked += (sender, e) => { ShowTaskDetails(new Task()); };
+        protected void Initialize() {
+        	NavigationItem.SetRightBarButtonItem (new UIBarButtonItem (UIBarButtonSystemItem.Add), false);
 
-			TableView.SeparatorInset = UIEdgeInsets.Zero;
-		}
-		
-		protected void ShowTaskDetails(Task task)
-		{
-			currentTask = task;
+        	NavigationItem.RightBarButtonItem.Clicked += (sender, e) => { ShowTaskDetails(new Task()); };
+
+        	TableView.SeparatorInset = UIEdgeInsets.Zero;
+        }
+
+        protected void ShowTaskDetails(Task task) {
+        	currentTask = task;
 
             currentTask.CategoryId = currentCategory.Id;
 
-			context = new BindingContext(
+        	context = new BindingContext(
                 this, 
                 currentTask, 
                 task.Name ?? "New Task"
             );
 
-			detailsScreen = new DialogViewController (context.Root, true);
+        	detailsScreen = new DialogViewController (context.Root, true);
 
-			ActivateController(detailsScreen);
-		}
+        	ActivateController(detailsScreen);
+        }
 
-		public void SaveTask()
-		{
-			context.Fetch ();
+        public void SaveTask() {
+        	context.Fetch ();
 
-			TaskManager.SaveTask(currentTask);
+        	TaskManager.SaveTask(currentTask);
 
-			NavigationController.PopViewControllerAnimated (true);
-		}
+        	NavigationController.PopViewControllerAnimated (true);
+        }
 
-		public void DeleteTask ()
-		{
+        public void DeleteTask () {
             if (currentTask.Id >= 0)
                 TaskManager.DeleteTask (currentTask.Id);
 
-			NavigationController.PopViewControllerAnimated (true);
-		}
+        	NavigationController.PopViewControllerAnimated (true);
+        }
 
-		public override void ViewWillAppear (bool animated)
-		{
-			base.ViewWillAppear (animated);
+        public override void ViewWillAppear (bool animated) {
+        	base.ViewWillAppear (animated);
 
-			PopulateTable();
+        	PopulateTable();
 
-			NavigationItem.SetHidesBackButton (false, false);
-		}
+        	NavigationItem.SetHidesBackButton (false, false);
+        }
 
-		public override void ViewWillDisappear (bool animated)
-		{
-			base.ViewWillDisappear (animated);
+        public override void ViewWillDisappear (bool animated) {
+        	base.ViewWillDisappear (animated);
 
-			NavigationItem.SetHidesBackButton (true, false);
-		}
-		
-		public void PopulateTable()
-		{
-			var s = new Section ();
-				
-			Root = new RootElement(currentCategory.Name) {s};
+        	NavigationItem.SetHidesBackButton (true, false);
+        }
+
+        public void PopulateTable() {
+        	var s = new Section ();
+        		
+        	Root = new RootElement(currentCategory.Name) {s};
 
             Tasks = TaskManager.GetTasks(currentCategory.Id).ToList();
 
-			Tasks.ForEach(t => {
+        	Tasks.ForEach(t => {
                     
                 StyledStringElement sse = new StyledStringElement (
                     string.IsNullOrEmpty(t.Name) ? "<New Task>" : t.Name, 
@@ -109,32 +101,29 @@ namespace Todooy.Screens {
                 if (t.DueDate) {
                     sse.Value = t.Date.ToShortDateString();
 
-					if (t.Date.Date > DateTime.Today) {
-						sse.DetailColor = UIColor.Green;
-					} else if (t.Date.Date <= DateTime.Today) {
-						sse.DetailColor = UIColor.Red;
+        			if (t.Date.Date > DateTime.Today) {
+        				sse.DetailColor = UIColor.Green;
+        			} else if (t.Date.Date <= DateTime.Today) {
+        				sse.DetailColor = UIColor.Red;
                     }
                 }
 
                 s.Add(sse);
-			});
-		}
+        	});
+        }
 
-		public override void Selected (MonoTouch.Foundation.NSIndexPath indexPath)
-		{
-			var task = Tasks[indexPath.Row];
+        public override void Selected (MonoTouch.Foundation.NSIndexPath indexPath) {
+        	var task = Tasks[indexPath.Row];
 
-			ShowTaskDetails(task);
-		}
+        	ShowTaskDetails(task);
+        }
 
-		public override Source CreateSizingSource (bool unevenRows)
-		{
-			return new TaskSource (this);
-		}
+        public override Source CreateSizingSource (bool unevenRows) {
+        	return new TaskSource (this);
+        }
 
-		public void DeleteTaskRow(int rowId)
-		{
+        public void DeleteTaskRow(int rowId) {
             TaskManager.DeleteTask(Tasks[rowId].Id);
-		}
-	}
+        }
+    }
 }
