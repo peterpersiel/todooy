@@ -5,21 +5,21 @@ using MonoTouch.UIKit;
 
 namespace Todooy.ApplicationLayer {
 
-    public class CategorySource : DialogViewController.Source {
-        public CategorySource (DialogViewController dvc) : base (dvc) {}
+public class CategorySource : DialogViewController.Source {
+    public CategorySource (DialogViewController dvc) : base (dvc) {}
 
-		public override bool CanEditRow (UITableView tableView, NSIndexPath indexPath) {
-			return true;
-		}
-			
-		public override UITableViewCellEditingStyle EditingStyleForRow (UITableView tableView, NSIndexPath indexPath) {
-			return UITableViewCellEditingStyle.Delete;
-		}
+        public override bool CanEditRow (UITableView tableView, NSIndexPath indexPath) {
+            return true;
+        }
 
-		public override void CommitEditingStyle (UITableView tableView, UITableViewCellEditingStyle editingStyle, MonoTouch.Foundation.NSIndexPath indexPath) {
-			var dvc = Container as Screens.CategoriesScreen;
+        public override UITableViewCellEditingStyle EditingStyleForRow (UITableView tableView, NSIndexPath indexPath) {
+            return UITableViewCellEditingStyle.Delete;
+        }
 
-			switch (editingStyle) {
+        public override void CommitEditingStyle (UITableView tableView, UITableViewCellEditingStyle editingStyle, MonoTouch.Foundation.NSIndexPath indexPath) {
+            var dvc = Container as Screens.CategoriesScreen;
+
+            switch (editingStyle) {
                 case UITableViewCellEditingStyle.Delete:
 
                     var section = Container.Root[indexPath.Section];
@@ -32,12 +32,12 @@ namespace Todooy.ApplicationLayer {
                         dvc.DeleteCategoryRow(indexPath.Row);
                     }
 
-					break;
+            		break;
 
-				case UITableViewCellEditingStyle.None:
-					Console.WriteLine ("CommitEditingStyle:None called");
-					break;
-			}
-		}
+            	case UITableViewCellEditingStyle.None:
+            		Console.WriteLine ("CommitEditingStyle:None called");
+            		break;
+            }
+        }
     }
 }

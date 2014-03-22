@@ -5,24 +5,21 @@ using MonoTouch.UIKit;
 
 namespace Todooy.ApplicationLayer {
 
-	public class TaskSource : DialogViewController.Source {
-		public TaskSource (DialogViewController dvc) : base (dvc) {}
-		
-		public override bool CanEditRow (UITableView tableView, NSIndexPath indexPath)
-		{
-			return true;
-		}
+    public class TaskSource : DialogViewController.Source {
+        public TaskSource (DialogViewController dvc) : base (dvc) {}
 
-		public override UITableViewCellEditingStyle EditingStyleForRow (UITableView tableView, NSIndexPath indexPath)
-		{
-			return UITableViewCellEditingStyle.Delete;
-		}
-		
-		public override void CommitEditingStyle (UITableView tableView, UITableViewCellEditingStyle editingStyle, MonoTouch.Foundation.NSIndexPath indexPath)
-		{
-			var dvc = Container as Screens.TasksScreen;
+        public override bool CanEditRow (UITableView tableView, NSIndexPath indexPath) {
+            return true;
+        }
 
-			switch (editingStyle) {
+        public override UITableViewCellEditingStyle EditingStyleForRow (UITableView tableView, NSIndexPath indexPath) {
+            return UITableViewCellEditingStyle.Delete;
+        }
+
+        public override void CommitEditingStyle (UITableView tableView, UITableViewCellEditingStyle editingStyle, MonoTouch.Foundation.NSIndexPath indexPath) {
+            var dvc = Container as Screens.TasksScreen;
+
+            switch (editingStyle) {
                 case UITableViewCellEditingStyle.Delete:
 
                     var section = Container.Root[indexPath.Section];
@@ -35,12 +32,12 @@ namespace Todooy.ApplicationLayer {
                         dvc.DeleteTaskRow(indexPath.Row);
                     }
 
-    				break;
+            		break;
 
-    			case UITableViewCellEditingStyle.None:
-    				Console.WriteLine ("CommitEditingStyle:None called");
-    				break;
-			}
-		}
-	}
+            	case UITableViewCellEditingStyle.None:
+            		Console.WriteLine ("CommitEditingStyle:None called");
+            		break;
+            }
+        }
+    }
 }

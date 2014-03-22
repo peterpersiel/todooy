@@ -6,18 +6,15 @@ using System.Linq;
 using Mono.Data.Sqlite;
 using Todooy.Extensions;
 
-namespace Todooy.Core
-{
-	public class DatabaseADO 
-	{
+namespace Todooy.Core {
+	public class DatabaseADO {
 		static object locker = new object ();
 
 		public SqliteConnection Connection;
 
 		public string Path;
 
-		public DatabaseADO (string dbPath) 
-		{
+		public DatabaseADO (string dbPath) {
 			Path = dbPath;
 
             bool exists = File.Exists (dbPath);
@@ -66,8 +63,7 @@ namespace Todooy.Core
 			return c;
 		}
 
-		public IEnumerable<Category> GetCategories ()
-		{
+		public IEnumerable<Category> GetCategories () {
 			var tl = new List<Category> ();
 
 			lock (locker) {
@@ -93,8 +89,7 @@ namespace Todooy.Core
 			return tl;
 		}
 
-        public Category GetCategory (int id) 
-		{
+        public Category GetCategory (int id) {
 			var c = new Category ();
 
 			lock (locker) {
@@ -124,8 +119,7 @@ namespace Todooy.Core
 			return c;
 		}
 
-		public int SaveCategory (Category item) 
-		{
+		public int SaveCategory (Category item) {
 			int r;
 
 			lock (locker) {
@@ -175,8 +169,7 @@ namespace Todooy.Core
 			}
 		}
 
-		public int DeleteCategory(int id) 
-		{
+		public int DeleteCategory(int id) {
 			GetTasks(id).ToList().ForEach(t => DeleteTask(id));
 
 			lock (locker) {
@@ -221,8 +214,7 @@ namespace Todooy.Core
 			return t;
 		}
 
-		public IEnumerable<Task> GetTasks (int categoryId)
-		{
+		public IEnumerable<Task> GetTasks (int categoryId) {
 			var tl = new List<Task> ();
 
 			lock (locker) {
@@ -251,8 +243,7 @@ namespace Todooy.Core
 			return tl;
 		}
 
-		public Task GetTask (int id) 
-		{
+		public Task GetTask (int id) {
 			var t = new Task ();
 
 			lock (locker) {
@@ -282,8 +273,7 @@ namespace Todooy.Core
 			return t;
 		}
 
-		public int SaveTask (Task item) 
-		{
+		public int SaveTask (Task item) {
 			int r;
 
 			lock (locker) {
@@ -359,8 +349,7 @@ namespace Todooy.Core
 			}
 		}
 
-		public int DeleteTask(int id) 
-		{
+		public int DeleteTask(int id) {
 			lock (locker) {
 				int r;
 
