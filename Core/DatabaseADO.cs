@@ -17,46 +17,46 @@ namespace Todooy.Core {
 		public DatabaseADO (string dbPath) {
 			Path = dbPath;
 
-            bool exists = File.Exists (dbPath);
+			bool exists = File.Exists (dbPath);
 
 			if (!exists) {
-				Connection = new SqliteConnection ("Data Source=" + dbPath);
+			Connection = new SqliteConnection ("Data Source=" + dbPath);
 
-				Connection.Open ();
+			Connection.Open ();
 
-				var commands = new[] {
-                    "CREATE TABLE [Category] (" +
-						"Id INTEGER NOT NULL PRIMARY KEY ASC, " +
-						"Name NTEXT, " +
-						"Color INTEGER" +
-					");",
-					"CREATE TABLE [Task] (" +
-						"Id INTEGER NOT NULL PRIMARY KEY ASC," +
-						"Name NTEXT, " +
-						"Notes NTEXT, " +
-						"Done INTEGER, " +
-                        "Date INTEGER, " +
-                        "CategoryId INTEGER," +
-                       "FOREIGN KEY (CategoryId) REFERENCES Category(Id)" +
-					");",
-				};
+			var commands = new[] {
+			"CREATE TABLE [Category] (" +
+				"Id INTEGER NOT NULL PRIMARY KEY ASC, " +
+				"Name NTEXT, " +
+				"Color INTEGER" +
+			");",
+			"CREATE TABLE [Task] (" +
+				"Id INTEGER NOT NULL PRIMARY KEY ASC," +
+				"Name NTEXT, " +
+				"Notes NTEXT, " +
+				"Done INTEGER, " +
+			    "Date INTEGER, " +
+			    "CategoryId INTEGER," +
+			   "FOREIGN KEY (CategoryId) REFERENCES Category(Id)" +
+			");",
+			};
 
-				foreach (var command in commands) {
-					using (var c = Connection.CreateCommand ()) {
-						c.CommandText = command;
-						c.ExecuteNonQuery ();
+			foreach (var command in commands) {
+				using (var c = Connection.CreateCommand ()) {
+					c.CommandText = command;
+					c.ExecuteNonQuery ();
 
-						Console.WriteLine (command);
-					}
+					Console.WriteLine (command);
 				}
+			}
 
 			}
 		}
-		
+
 		Category CategoryReader (SqliteDataReader r) {
 			var c = new Category ();
 
-            c.Id    = Convert.ToInt32 (r ["Id"]);
+			c.Id    = Convert.ToInt32 (r ["Id"]);
 			c.Name  = r ["Name"].ToString ();
 			c.Color = (CategoryColor)Convert.ToInt32 (r ["Color"]);
 
@@ -89,7 +89,7 @@ namespace Todooy.Core {
 			return tl;
 		}
 
-        public Category GetCategory (int id) {
+		public Category GetCategory (int id) {
 			var c = new Category ();
 
 			lock (locker) {
@@ -106,7 +106,7 @@ namespace Todooy.Core {
 
 					var r = command.ExecuteReader ();
 
-					
+
 					while (r.Read ()) {
 						c = CategoryReader (r);
 						break;
@@ -124,7 +124,7 @@ namespace Todooy.Core {
 
 			lock (locker) {
 
-                if (item.Id != 0) {
+				if (item.Id != 0) {
 					Connection = new SqliteConnection ("Data Source=" + Path);
 
 					Connection.Open ();
@@ -132,11 +132,11 @@ namespace Todooy.Core {
 					using (var command = Connection.CreateCommand ()) {
 						command.CommandText = "UPDATE [Category] " +
 											  "SET [Name] = ?, [Color] = ?" +
-                                              "WHERE [Id] = ?;";
+					                          "WHERE [Id] = ?;";
 
 						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Name });
 						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = (int)item.Color });
-                        command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.Id });
+					    command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.Id });
 
 						r = command.ExecuteNonQuery ();
 
@@ -165,7 +165,6 @@ namespace Todooy.Core {
 
 					return r;
 				}
-
 			}
 		}
 
@@ -198,7 +197,7 @@ namespace Todooy.Core {
 		Task TaskReader (SqliteDataReader r) {
 			var t = new Task ();
 
-            t.Id    	 = Convert.ToInt32 (r ["Id"]);
+			t.Id    	 = Convert.ToInt32 (r ["Id"]);
 			t.Name  	 = r ["Name"].ToString ();
 			t.Notes 	 = r ["Notes"].ToString ();
 			t.Done  	 = Convert.ToInt32 (r ["Done"]) == 1 ? true : false;
@@ -223,7 +222,7 @@ namespace Todooy.Core {
 				Connection.Open ();
 
 				using (var command = Connection.CreateCommand ()) {
-                    command.CommandText = "SELECT [Id], [Name], [Notes], [Done], [Date], [CategoryId] " +
+					command.CommandText = "SELECT [Id], [Name], [Notes], [Done], [Date], [CategoryId] " +
 										  "FROM [Task] " +
 										  "WHERE [CategoryId] = ?" +
 										  "ORDER BY Done,Date ASC";
@@ -244,40 +243,40 @@ namespace Todooy.Core {
 		}
 
 		public Task GetTask (int id) {
-			var t = new Task ();
+		var t = new Task ();
 
-			lock (locker) {
-				Connection = new SqliteConnection ("Data Source=" + Path);
+		lock (locker) {
+		Connection = new SqliteConnection ("Data Source=" + Path);
 
-				Connection.Open ();
+		Connection.Open ();
 
-				using (var command = Connection.CreateCommand ()) {
-                    command.CommandText = "SELECT [Id], [Name], [Notes], [Done], [Date], [CategoryId] " +
-                                          "FROM [Task] WHERE" +
-										  "[Id] = ?";
+		using (var command = Connection.CreateCommand ()) {
+		command.CommandText = "SELECT [Id], [Name], [Notes], [Done], [Date], [CategoryId] " +
+		                      "FROM [Task] WHERE" +
+							  "[Id] = ?";
 
-					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = id });
+		command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = id });
 
-					var r = command.ExecuteReader ();
+		var r = command.ExecuteReader ();
 
-					
-					while (r.Read ()) {
-						t = TaskReader (r);
-						break;
-					}
-				}
 
-				Connection.Close ();
-			}
+		while (r.Read ()) {
+			t = TaskReader (r);
+			break;
+		}
+		}
 
-			return t;
+		Connection.Close ();
+		}
+
+		return t;
 		}
 
 		public int SaveTask (Task item) {
 			int r;
 
 			lock (locker) {
-                if (item.Id != 0) {
+				if (item.Id != 0) {
 					Connection = new SqliteConnection ("Data Source=" + Path);
 
 					Connection.Open ();
@@ -292,7 +291,7 @@ namespace Todooy.Core {
 						} else {
 							command.CommandText += "SET [Name] = ?, [Notes] = ?, [Done] = ?, [Date] = NULL, [CategoryId] = ? ";
 						}
-                        
+					    
 						command.CommandText += "WHERE [Id] = ?;";
 
 						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Name });
@@ -304,7 +303,7 @@ namespace Todooy.Core {
 						}
 
 						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.CategoryId });
-                        command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.Id });
+					    command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.Id });
 
 						r = command.ExecuteNonQuery ();
 
