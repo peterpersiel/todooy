@@ -9,110 +9,110 @@ namespace Todooy.Screens {
 
     public class CategoriesScreen : DialogViewController {
 
-		public List<Category> Categories;
-        
-		BindingContext context;
+        public List<Category> Categories;
 
-		DialogViewController detailsScreen;
+        BindingContext context;
 
-		Category currentCategory;
+        DialogViewController detailsScreen;
 
-		UITableViewController tasksControllerView;
+        Category currentCategory;
+
+        UITableViewController tasksControllerView;
 
         public CategoriesScreen () : base (UITableViewStyle.Plain, null) {
             Initialize ();
         }
-        
-		protected void Initialize() {
-			NavigationItem.SetLeftBarButtonItem(new UIBarButtonItem (UIBarButtonSystemItem.Edit), false);
 
-			NavigationItem.LeftBarButtonItem.Clicked += (sender, e) => {
-				if (base.TableView.Editing) {
-					base.TableView.SetEditing(false, true); 
-				} else {
-					base.TableView.SetEditing(true, true);
-				}
-			};
-		
+        protected void Initialize() {
+            NavigationItem.SetLeftBarButtonItem(new UIBarButtonItem (UIBarButtonSystemItem.Edit), false);
+
+            NavigationItem.LeftBarButtonItem.Clicked += (sender, e) => {
+            	if (base.TableView.Editing) {
+            		base.TableView.SetEditing(false, true); 
+            	} else {
+            		base.TableView.SetEditing(true, true);
+            	}
+            };
+
 
             NavigationItem.SetRightBarButtonItem(new UIBarButtonItem (UIBarButtonSystemItem.Add), false);
 
             NavigationItem.RightBarButtonItem.Clicked += (sender, e) => ShowCategoryDetails(new Category());
 
-			TableView.SeparatorInset = UIEdgeInsets.Zero;
+            TableView.SeparatorInset = UIEdgeInsets.Zero;
         }
 
-		public void ShowCategoryDetails(Category category) {
+        public void ShowCategoryDetails(Category category) {
             currentCategory = category;
 
-			context = new BindingContext (this, currentCategory, "New Category");
+            context = new BindingContext (this, currentCategory, "New Category");
 
-			detailsScreen = new DialogViewController (context.Root, true);
+            detailsScreen = new DialogViewController (context.Root, true);
 
-			ActivateController(detailsScreen);
+            ActivateController(detailsScreen);
         }
 
-		protected void ShowCategoryTasks(Category category) {
-			currentCategory = category;
+        public void ShowCategoryTasks(Category category) {
+            currentCategory = category;
 
-			tasksControllerView = new Screens.TasksScreen (category);
+            tasksControllerView = new Screens.TasksScreen (category);
 
-			NavigationController.PushViewController(tasksControllerView, true);
-		}
+            NavigationController.PushViewController(tasksControllerView, true);
+        }
 
         public void SaveCategory() {
-			context.Fetch();
+            context.Fetch();
 
             CategoryManager.SaveCategory(currentCategory);
-            
-			NavigationController.PopViewControllerAnimated (true);
-		}
+
+            NavigationController.PopViewControllerAnimated (true);
+        }
 
         public void DeleteCategory () {
             if (currentCategory.Id >= 0)
                 CategoryManager.DeleteCategory (currentCategory.Id);
-            
-			NavigationController.PopViewControllerAnimated (true);
+
+            NavigationController.PopViewControllerAnimated (true);
         }
 
-		public override void ViewWillAppear (bool animated) {
-			base.ViewWillAppear (animated);
+        public override void ViewWillAppear (bool animated) {
+            base.ViewWillAppear (animated);
 
-			PopulateTable();
+            PopulateTable();
 
-			NavigationItem.SetHidesBackButton (false, false);
-		}
+            NavigationItem.SetHidesBackButton (false, false);
+        }
 
-		public override void ViewWillDisappear (bool animated) {
-			base.ViewWillDisappear (animated);
+        public override void ViewWillDisappear (bool animated) {
+            base.ViewWillDisappear (animated);
 
-			NavigationItem.SetHidesBackButton (true, false);
-		}
-        
-		public void PopulateTable() {
+            NavigationItem.SetHidesBackButton (true, false);
+        }
+
+        public void PopulateTable() {
             var s = new Section ();
                 
-			Root = new RootElement("Categories") {s};
-            
-			Categories = CategoryManager.GetCategories().ToList();
-            
-			Categories.ForEach(c => {
-				StyledStringElement sse = new StyledStringElement (c.Name == "" ? "<new category>" : c.Name) {
-					Accessory = UITableViewCellAccessory.DisclosureIndicator,
-					TextColor = Category.CategoryColors[(int)c.Color]
-				};
+            Root = new RootElement("Categories") {s};
 
-				s.Add(sse);
+            Categories = CategoryManager.GetCategories().ToList();
+
+            Categories.ForEach(c => {
+            	StyledStringElement sse = new StyledStringElement (c.Name == "" ? "<new category>" : c.Name) {
+            		Accessory = UITableViewCellAccessory.DisclosureIndicator,
+            		TextColor = Category.CategoryColors[(int)c.Color]
+            	};
+
+            	s.Add(sse);
             });
 
         }
 
 
-		public override void Selected (MonoTouch.Foundation.NSIndexPath indexPath) {
-			var category = Categories[indexPath.Row];
+        public override void Selected (MonoTouch.Foundation.NSIndexPath indexPath) {
+            var category = Categories[indexPath.Row];
 
-			ShowCategoryTasks(category);
-		}
+            ShowCategoryTasks(category);
+        }
 
 
         public override Source CreateSizingSource (bool unevenRows) {
