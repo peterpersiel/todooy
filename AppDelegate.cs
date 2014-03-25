@@ -17,14 +17,14 @@ namespace Todooy {
 
 			navController = new UINavigationController ();
 
-            categoriesViewController = new Screens.CategoriesScreen ();
+			categoriesViewController = new Screens.CategoriesScreen ();
 
 			navController.PushViewController(categoriesViewController, true);
 
 			window.RootViewController = navController;
 
 			window.MakeKeyAndVisible ();
-			
+
 			return true;
 		}
 	}
