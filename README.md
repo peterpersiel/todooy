@@ -15,5 +15,5 @@ Todooy is a powerful, yet simple to-do list app for iOS
 
 ## Credits
 
-* <a href="http://www.mono-project.com/Main_Page">Mono</a> by Xamarin
+* <a href="http://xamarin.com/ios">Xamarin.iOS</a> by Xamarin
 
